@@ -39,7 +39,7 @@ class App:
 
     def add_webcam(self, label):
         if 'cap' not in self.__dict__:
-            self.cap = cv2.VideoCapture(2)
+            self.cap = cv2.VideoCapture(0)
 
         self._label = label
         self.process_webcam()
@@ -60,7 +60,7 @@ class App:
 
         label = test(
                 image=self.most_recent_capture_arr,
-                model_dir='/home/phillip/Desktop/todays_tutorial/27_face_recognition_spoofing/code/face-attendance-system/Silent-Face-Anti-Spoofing/resources/anti_spoof_models',
+                model_dir='C:/Users/Yassine/Desktop/face tutorial/face_recognition_spoofing/code/face-attendance-system/Silent-Face-Anti-Spoofing/resources/anti_spoof_models',
                 device_id=0
                 )
 
@@ -73,7 +73,7 @@ class App:
             else:
                 util.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
                 with open(self.log_path, 'a') as f:
-                    f.write('{},{},in\n'.format(name, datetime.datetime.now()))
+                    f.write('{},\t {}, \t in \n'.format(name, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
                     f.close()
 
         else:
@@ -83,7 +83,7 @@ class App:
 
         label = test(
                 image=self.most_recent_capture_arr,
-                model_dir='/home/phillip/Desktop/todays_tutorial/27_face_recognition_spoofing/code/face-attendance-system/Silent-Face-Anti-Spoofing/resources/anti_spoof_models',
+                model_dir='C:/Users/Yassine/Desktop/face tutorial/face_recognition_spoofing/code/face-attendance-system/Silent-Face-Anti-Spoofing/resources/anti_spoof_models',
                 device_id=0
                 )
 
@@ -121,7 +121,7 @@ class App:
         self.entry_text_register_new_user = util.get_entry_text(self.register_new_user_window)
         self.entry_text_register_new_user.place(x=750, y=150)
 
-        self.text_label_register_new_user = util.get_text_label(self.register_new_user_window, 'Please, \ninput username:')
+        self.text_label_register_new_user = util.get_text_label(self.register_new_user_window, 'Please, \n input username:')
         self.text_label_register_new_user.place(x=750, y=70)
 
     def try_again_register_new_user(self):
