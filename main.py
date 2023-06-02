@@ -1,11 +1,11 @@
-import os.path
 import datetime
+import os.path
 import pickle
-
 import tkinter as tk
+
 import cv2
-from PIL import Image, ImageTk
 import face_recognition
+from PIL import Image, ImageTk
 
 import util
 from test import test
@@ -35,7 +35,7 @@ class App:
         if not os.path.exists(self.db_dir):
             os.mkdir(self.db_dir)
 
-        self.log_path = './log.txt'
+        self.log_path = './log.csv'
 
     def add_webcam(self, label):
         if 'cap' not in self.__dict__:
@@ -64,20 +64,20 @@ class App:
                 device_id=0
                 )
 
-        if label == 1:
+        #if label == 1:
 
-            name = util.recognize(self.most_recent_capture_arr, self.db_dir)
+        name = util.recognize(self.most_recent_capture_arr, self.db_dir)
 
-            if name in ['unknown_person', 'no_persons_found']:
-                util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
-            else:
-                util.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
-                with open(self.log_path, 'a') as f:
-                    f.write('{},\t {}, \t in \n'.format(name, datetime.datetime.now().strftime("%H:%M:%S")))
-                    f.close()
-
+        if name in ['unknown_person', 'no_persons_found']:
+            util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
         else:
-            util.msg_box('Hey, you are a spoofer!', 'You are fake !')
+            util.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
+            with open(self.log_path, 'a') as f:
+                f.write('{},\t {}, \t in \n'.format(name, datetime.datetime.now().strftime("%H:%M:%S")))
+                f.close()
+
+        #else:
+            #util.msg_box('Hey, you are a spoofer!', 'You are fake !')
 
     def logout(self):
 
@@ -87,20 +87,20 @@ class App:
                 device_id=0
                 )
 
-        if label == 1:
+        #if label == 1:
 
-            name = util.recognize(self.most_recent_capture_arr, self.db_dir)
+        name = util.recognize(self.most_recent_capture_arr, self.db_dir)
 
-            if name in ['unknown_person', 'no_persons_found']:
-                util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
-            else:
-                util.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
-                with open(self.log_path, 'a') as f:
-                    f.write('{}, \t {}, \t out\n'.format(name, datetime.datetime.now().strftime("%H:%M:%S")))
-                    f.close()
-
+        if name in ['unknown_person', 'no_persons_found']:
+            util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
         else:
-            util.msg_box('Hey, you are a spoofer!', 'You are fake !')
+            util.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
+            with open(self.log_path, 'a') as f:
+                f.write('{}, \t {}, \t out\n'.format(name, datetime.datetime.now().strftime("%H:%M:%S")))
+                f.close()
+
+        #else:
+            #util.msg_box('Hey, you are a spoofer!', 'You are fake !')
 
 
     def register_new_user(self):
