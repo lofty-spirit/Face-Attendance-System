@@ -96,7 +96,7 @@ class App:
             else:
                 util.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
                 with open(self.log_path, 'a') as f:
-                    f.write('{},{},out\n'.format(name, datetime.datetime.now()))
+                    f.write('{}, \t {}, \t out\n'.format(name, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
                     f.close()
 
         else:
