@@ -31,15 +31,17 @@ class App:
 
         self.add_webcam(self.webcam_label)
 
-        self.db_dir = './db'
+        self.db_dir = './OUTPUT/db'
+        self.clients_dir='./OUTPUT/clients'
         if not os.path.exists(self.db_dir):
             os.mkdir(self.db_dir)
-
-        self.log_path = './log.csv'
+        if not os.path.exists(self.clients_dir):
+            os.mkdir(self.clients_dir)
+        self.log_path = './OUTPUT/log.csv'
 
     def add_webcam(self, label):
         if 'cap' not in self.__dict__:
-            self.cap = cv2.VideoCapture(0)
+            self.cap = cv2.VideoCapture(1)
 
         self._label = label
         self.process_webcam()
@@ -140,14 +142,27 @@ class App:
     def accept_register_new_user(self):
         name = self.entry_text_register_new_user.get(1.0, "end-1c")
 
-        embeddings = face_recognition.face_encodings(self.register_new_user_capture)[0]
+        if util.recognize(self.register_new_user_capture, self.db_dir) == 'no_persons_found':
+            util.msg_box('Oh no!', 'No face was detected. Please try again')
+            self.register_new_user_window.destroy()
 
-        file = open(os.path.join(self.db_dir, '{}.pickle'.format(name)), 'wb')
-        pickle.dump(embeddings, file)
+        elif util.recognize(self.register_new_user_capture, self.db_dir) == 'unknown_person':
 
-        util.msg_box('Success!', 'User was registered successfully !')
+            embeddings = face_recognition.face_encodings(self.register_new_user_capture)[0]
 
-        self.register_new_user_window.destroy()
+            file = open(os.path.join(self.db_dir, '{}.pickle'.format(name)), 'wb')
+            pickle.dump(embeddings, file)
+
+            cv2.imwrite(os.path.join(self.clients_dir, '{}.png'.format(name)), self.register_new_user_capture)
+
+            util.msg_box('Success!', 'User was registered successfully !')
+
+            self.register_new_user_window.destroy()
+        else:
+            util.msg_box('Attention!','You are already registered! Proceed to logging in')
+            self.register_new_user_window.destroy()
+
+
 
 
 if __name__ == "__main__":
