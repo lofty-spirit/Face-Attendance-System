@@ -140,6 +140,14 @@ class App:
         self.main_window.mainloop()
 
     def accept_register_new_user(self):
+        label = test(
+            image=self.register_new_user_capture,
+            model_dir='C:/Users/Yassine/Desktop/face tutorial/face_recognition_spoofing/code/face-attendance-system/Silent-Face-Anti-Spoofing/resources/anti_spoof_models',
+            device_id=0
+            )
+
+        #if label==1:
+
         name = self.entry_text_register_new_user.get(1.0, "end-1c")
 
         if util.recognize(self.register_new_user_capture, self.db_dir) == 'no_persons_found':
@@ -162,6 +170,8 @@ class App:
             util.msg_box('Attention!','You are already registered! Proceed to logging in')
             self.register_new_user_window.destroy()
 
+        # else:
+        # util.msg_box('Hey, you are a spoofer!', 'You are fake !')
 
 
 
